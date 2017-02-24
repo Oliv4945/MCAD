@@ -3,7 +3,7 @@
  *
  * Authors:
  *   - Eero 'rambo' af Heurlin 2010-
- *
+ *  -  Oliv4945 - Add Turnigy TSS11-MGB servo. 24/02/17
  * License: LGPL 2.1
  */
 
@@ -152,5 +152,71 @@ module futabas3003(position, rotation)
 	}
 }
 
+
+/**
+ * Turnigy TSS-11MGB servo
+ *
+ * @param vector position The position vector
+ * @param vector rotation The rotation vector
+ */
+module turnigyTSS11MGB(position, )
+{
+translate([6.05, 5.5, 0])
+	{
+	    {
+			union()
+			{
+				// Main axle
+				translate([0,0,25.8-1])
+				{
+					cylinder(r=12/2, h=3.8+1, $fn=30);
+					cylinder(r=3.8/2, h=2.5+3.8+1, $fn=20);
+				}
+				// Box and ears
+                    translate([-6.05,-5.5,0]) 
+                        union() {
+                            cube([12.1, 23.4,24], false);
+                            translate([0,-4.7, 19.5]) {
+                                difference() {  // Ear 1
+                                    cube([12.1, 4.7, 1.55]);
+                                     translate([6.05, 4.7/2, -1])
+                                        cylinder(r=2/2, h=6, $fn=20);
+                                }
+                            }
+                            translate([0,23.4, 19.5]) {
+                                difference() {  // Ear 2
+                                    cube([12.1, 4.7, 1.55]);
+                                     translate([6.05, 4.7/2, -1])
+                                        cylinder(r=2/2, h=6, $fn=20);
+                                }
+                            }
+                    // Screw holes
+              //      translate([0,(-5.5 - 4.7/2),18])
+               //        #cylinder(r=2/2, h=6, $fn=20);
+                   // translate([0,23.4-5.5+4.7/2,18])
+                       // # cylinder(r=2/2, h=6, $fn=20);
+                }
+
+				// The large slope
+				translate([-6.05,0,24])
+				{
+					rotate([90,0,90])
+					{
+						triangle(1.8, 23.4-5.5, 12.1);
+					}
+				}
+
+				// So we render a cube instead of the small slope on a cube
+				translate([-6.1,-5.5,24])
+				{
+					cube([12.1,5.5,1.8]);
+				}
+			}
+		}
+	}
+}
+
 // Tests:
 module test_alignds420(){alignds420(screws=1);}
+turnigyTSS11MGB();
+//test_alignds420();
